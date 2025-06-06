@@ -1,0 +1,2 @@
+paho-mqtt
+flask>=2.0.0

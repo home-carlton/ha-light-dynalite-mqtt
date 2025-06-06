@@ -1,0 +1,108 @@
+defaults:
+  presets: [1, 2, 3, 4]
+  levels: [255, 178, 26, 0] #255=100%, 0=0% -> ["100%", "70%", "10%", "0%"]
+areas:
+  10:
+    name: "Ground Floor (All)"
+    channels:
+      "all": 
+        name: "Ground Floor (Master)"
+  13:
+    name: "Entrance"
+    channels:
+      "all": 
+        name: "Entrance (Master)"
+      "1": 
+        name: "Spot Lights"
+      "2": 
+        name: "Cove Lights"
+      "3": 
+        name: "Console Room"
+  14:
+    name: "Powder Room"
+    channels:
+      "all": 
+        name: "Powder Room (Master)"
+      "1": 
+        name: "Main Lights"
+      "2": 
+        name: "Mirror Lights"
+      "3": 
+        name: "Accent Lights"
+  15:
+    name: "Service Kitchen"
+    channels:
+      "all": 
+        name: "Service Kitchen (Master)"
+      "3": 
+        name: "Worktop Lights"
+  16:
+    name: "Show Kitchen"
+    channels:
+      "all": 
+        name: "Show Kitchen (Master)"
+      "1": 
+        name: "Spot Lights"
+      "2": 
+        name: "Cove Lights"
+      "3": 
+        name: "Shelves"
+  17:
+    name: "Dining Room"
+    channels:
+      "all": 
+        name: "Dining Kitchen (Master)"
+      "1": 
+        name: "Spot Lights"
+      "2": 
+        name: "Cove Lights"
+      "3": 
+        name: "Hanging Lights"
+  18:
+    name: "Living Area"
+    channels:
+      "all": 
+        name: "Living Area (Master)"
+      "1": 
+        name: "Spot Lights"
+      "2": 
+        name: "Cove Lights"
+      "3": 
+        name: "Shelf Lights"
+  20:
+    name: "Maids Bathroom"
+    channels:
+      "all": 
+        name: "Maids Bathroom (Master)"
+  21:
+    name: "Maids Room"
+    channels:
+      "all": 
+        name: "Maids Room (Master)"
+  22:
+    name: "Utility Area"
+    channels:
+      "all": 
+        name: "Utility Area (Master)"
+      "1": 
+        name: "Spot Lights"
+      "3": 
+        name: "Shelf Lights"
+  90:
+    name: "Outdoor Lighting (All)"
+    channels:
+      "all": 
+        name: "Outdoor (Master)"
+        presets: [1, 4]
+        levels: [255, 0] 
+  201:
+    name: "Home Assistant Presets"
+    channels:
+      "1": 
+        name: "Home"
+        presets: [1, 4]
+        levels: [255, 0] 
+      "2": 
+        name: "Away"
+        presets: [1, 4]
+        levels: [255, 0]
