@@ -8,7 +8,8 @@ from collections import defaultdict
 
 from helpers.dynet_mqtt import (
     build_area_preset_body,
-    build_request_current_preset
+    build_request_current_preset,
+    build_request_set_preset_dyn1
 )
 from config import (
     MQTT_HOMEASSISTANT_PREFIX,
