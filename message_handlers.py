@@ -129,7 +129,7 @@ def handle_ha_brightness_command(topic: str, payload: str, dynalite_map: dict,mq
         return
 
     else:
-        log(f"⛔ Preset: {preset} [{closest_level}] not found in {presets} area: {area} channel: {channel}")    
+        log(f"⛔ Preset: {preset} [level: {closest_level}] not found in {presets} area: {area} channel: {channel}")    
 
 def handle_dynet_packet(parsed, dynalite_map,mqtt_client):
     try:
