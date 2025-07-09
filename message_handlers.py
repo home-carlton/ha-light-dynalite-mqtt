@@ -52,6 +52,11 @@ def handle_ha_brightness_command(topic: str, payload: str, dynalite_map: dict,mq
     log(f"📤 Sending Dynalite Packet → {hex_msg}")
     pub2dynet(type="dynet2", hex_string=hex_msg, pending_responses=pending_responses)
 
+    hex_msg = build_request_set_preset_dyn1(area=area, preset=preset, channel=channel)
+    log(f"📤 Sending Dynalite Packet → {hex_msg}")
+    pub2dynet(type="dynet1", hex_string=hex_msg, pending_responses=pending_responses)
+    
+
     # Request confirmation
     confirm = build_request_current_preset(area=area, channel=channel)
     pub2dynet(type="dynet1", hex_string=confirm, pending_responses=pending_responses)

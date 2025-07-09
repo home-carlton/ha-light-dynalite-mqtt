@@ -182,3 +182,44 @@ def build_request_current_preset(area: int, join: int = 0xFF, channel: int = 0x0
     except Exception as e:
         log(f"❌ build_channel_level_body error: {e}")
         return None
+    
+
+def build_request_set_preset_dyn1(area: int, preset: int, channel: int = 0x00, fade_time : float = 50., join: int = 0xFF) -> bytes:
+    """
+    Build Dynet1 packet body for 'Request Current Preset' (Opcode 0x6b).
+
+    Parameters:
+        area (int): Dynalite area (0–255)
+        join (int): Join number (0–255), default 0xFF
+        channel (int): Channel number (0–255), default 0
+
+    Returns:
+        bytes: 7-byte Dynet1 message body (without header/checksum)
+    """
+    
+    try:
+        # Only convert to 0-based if not 0xFF ("all channels")
+        if channel != 0xFF:
+            channel = max(0, channel - 1)
+
+        preset = max(0, preset - 1)
+        
+        fade_time = int(fade / 0.02)
+        if (fade_time) > 0xFF:
+            fade_time = 0xFF
+            
+        body_bytes = [
+            0X1C,
+            area & 0xFF, # Byte 1: area
+            channel  & 0xFF,  # Byte 4: channel (zero-based)
+            0x6b,        # Byte 3: opcode
+            preset  & 0xFF,  # Byte 4: channel (zero-based)
+            fade_time & 0xFF,        # Byte 5: unused
+            join & 0xFF  # Byte 6: join
+        ]
+        return " ".join(f"{b:02X}" for b in body_bytes)
+
+    except Exception as e:
+        log(f"❌ build_request_set_preset_dyn1: {e}")
+        return None
+
