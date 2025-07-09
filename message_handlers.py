@@ -48,20 +48,28 @@ def handle_ha_brightness_command(topic: str, payload: str, dynalite_map: dict,mq
         zero_based_channel = int(str_channel)
         channel = int(str_channel)
 
-    hex_msg = build_area_preset_body(area=area, preset=preset, channel=zero_based_channel)
-    log(f"📤 Sending Dynalite Packet → {hex_msg}")
-    pub2dynet(type="dynet2", hex_string=hex_msg, pending_responses=pending_responses)
+    try:
+        hex_msg = build_area_preset_body(area=area, preset=preset, channel=zero_based_channel)
+        log(f"📤 Sending Dynalite2 Packet → {hex_msg}")
+        pub2dynet(type="dynet2", hex_string=hex_msg, pending_responses=pending_responses)
+    except Exception as e:
+        log(f"⚠️ Error Sending Dynalite2 Packet {e}")
+        
+    try:
+        hex_msg = build_request_set_preset_dyn1(area=area, preset=preset, channel=channel)
+        log(f"📤 Sending Dynalite1 Packet → {hex_msg}")
+        pub2dynet(type="dynet1", hex_string=hex_msg, pending_responses=pending_responses)
+    except Exception as e:
+        log(f"⚠️ Error Sending Dynalite1 Packet {e}")
 
-    hex_msg = build_request_set_preset_dyn1(area=area, preset=preset, channel=channel)
-    log(f"📤 Sending Dynalite Packet → {hex_msg}")
-    pub2dynet(type="dynet1", hex_string=hex_msg, pending_responses=pending_responses)
-    
+    try:
+        # Request confirmation
+        confirm = build_request_current_preset(area=area, channel=channel)
+        pub2dynet(type="dynet1", hex_string=confirm, pending_responses=pending_responses)
+        log(f"✅ Confirmation requested for area {area} channel {channel}")
+    except Exception as e:
+        log(f"⚠️ Error Sending Dynalite1 Packet {e}")
 
-    # Request confirmation
-    confirm = build_request_current_preset(area=area, channel=channel)
-    pub2dynet(type="dynet1", hex_string=confirm, pending_responses=pending_responses)
-    log(f"✅ Confirmation requested for area {area} channel {channel}")
-    
     # Update MQTT state (ahead of confirmation)
 
     if channel is None:
@@ -121,7 +129,7 @@ def handle_ha_brightness_command(topic: str, payload: str, dynalite_map: dict,mq
         return
 
     else:
-        log(f"⛔ Preset: {preset} not found in {presets}")    
+        log(f"⛔ Preset: {preset} [{closest_level}] not found in {presets} area: {area} channel: {channel}")    
 
 def handle_dynet_packet(parsed, dynalite_map,mqtt_client):
     try:
