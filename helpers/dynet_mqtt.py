@@ -204,7 +204,7 @@ def build_request_set_preset_dyn1(area: int, preset: int, channel: int = 0x00, f
 
         preset = max(0, preset - 1)
         
-        fade_time = int(fade / 0.02)
+        fade_time = int(fade_time / 0.02)
         if (fade_time) > 0xFF:
             fade_time = 0xFF
             
