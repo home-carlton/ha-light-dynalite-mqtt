@@ -184,7 +184,7 @@ def build_request_current_preset(area: int, join: int = 0xFF, channel: int = 0x0
         return None
     
 
-def build_request_set_preset_dyn1(area: int, preset: int, channel: int = 0x00, fade_time : float = 50., join: int = 0xFF) -> bytes:
+def build_request_set_preset_dyn1(area: int, preset: int, channel: int = 0x00, fade_time : float = 0., join: int = 0xFF) -> bytes:
     """
     Build Dynet1 packet body for 'Request Current Preset' (Opcode 0x6b).
 
@@ -211,10 +211,10 @@ def build_request_set_preset_dyn1(area: int, preset: int, channel: int = 0x00, f
         body_bytes = [
             0X1C,
             area & 0xFF, # Byte 1: area
-            channel  & 0xFF,  # Byte 4: channel (zero-based)
+            channel  & 0xFF,  # Byte 4: channel (zero-based) data 1
             0x6b,        # Byte 3: opcode
-            preset  & 0xFF,  # Byte 4: channel (zero-based)
-            fade_time & 0xFF,        # Byte 5: unused
+            preset  & 0xFF,  # Byte 4: data 2
+            fade_time & 0xFF,        # Byte data 3
             join & 0xFF  # Byte 6: join
         ]
         return " ".join(f"{b:02X}" for b in body_bytes)

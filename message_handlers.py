@@ -47,15 +47,17 @@ def handle_ha_brightness_command(topic: str, payload: str, dynalite_map: dict,mq
         channel = 0xFF
     else:
         zero_based_channel = int(str_channel)
-        channel = int(str_channel)
-
+        # UR changed as we deduct 1
+        channel = zero_based_channel
+    '''
+    UR disabled - older systems don't support dyn2
     try:
         hex_msg = build_area_preset_body(area=area, preset=preset, channel=zero_based_channel)
         log(f"📤 Sending Dynalite2 Packet → {hex_msg}")
         pub2dynet(type="dynet2", hex_string=hex_msg, pending_responses=pending_responses)
     except Exception as e:
         log(f"⚠️ Error Sending Dynalite2 Packet {e}")
-        
+    '''    
     try:
         hex_msg = build_request_set_preset_dyn1(area=area, preset=preset, channel=channel)
         log(f"📤 Sending Dynalite1 Packet → {hex_msg}")
