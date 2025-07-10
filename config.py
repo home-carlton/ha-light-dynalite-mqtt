@@ -12,3 +12,4 @@ SW_VER = os.getenv("SW_VER", "0.1a")
 PRESET_NONE_OFF =  os.getenv("PRESET_NONE_OFF", True) #set Preset = None to Preset 4 (OFF). 
 CONFIG_PATH = os.getenv("CONFIG_PATH", "dynalite_map.yaml") 
 CONFIG_PORT = os.getenv("CONFIG_PORT", 8915) 
+PUBLISHER="Nerih82"

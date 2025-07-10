@@ -1,6 +1,6 @@
 # discovery.py
 import json
-from config import SW_VER, MQTT_HOMEASSISTANT_PREFIX
+from config import SW_VER, MQTT_HOMEASSISTANT_PREFIX, PUBLISHER
 from utils import log
 
 
@@ -13,7 +13,7 @@ def publish_light_discovery(mqtt_client, dynalite_map):
                 "device": {
                     "identifiers": [uid],
                     "name": f"Area {area_id} - {area_name}",
-                    "manufacturer": "Nerih82",
+                    "manufacturer": PUBLISHER,
                     "model": "Philips Dynalite MQTT Bridge",
                     "sw_version": f"{SW_VER}"
                 }

@@ -58,6 +58,8 @@ def handle_ha_brightness_command(topic: str, payload: str, dynalite_map: dict,mq
     except Exception as e:
         log(f"⚠️ Error Sending Dynalite2 Packet {e}")
     '''    
+        
+    # force dyn1 packet
     try:
         hex_msg = build_request_set_preset_dyn1(area=area, preset=preset, channel=channel)
         log(f"📤 Sending Dynalite1 Packet → {hex_msg}")

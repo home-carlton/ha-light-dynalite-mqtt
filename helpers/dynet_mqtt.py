@@ -223,3 +223,56 @@ def build_request_set_preset_dyn1(area: int, preset: int, channel: int = 0x00, f
         log(f"❌ build_request_set_preset_dyn1: {e}")
         return None
 
+
+def build_request_ramp_dyn1(area: int, direction: int = 2, channel: int = 0x00, ramp_rate : float = 50., target: int = 100, join: int = 0xFF) -> bytes:
+    """
+    Build Dynet1 packet body for 'Request Current Preset' (Opcode 0x6b).
+
+    Parameters:
+        area (int): Dynalite area (0–255)
+        join (int): Join number (0–255), default 0xFF
+        channel (int): Channel number (0–255), default 0
+
+        ramp down command 71 
+        ramp up command 69 
+        ramp stopp 76
+        direction 0 stop, 1 down 2 up
+        
+    Returns:
+        bytes: 7-byte Dynet1 message body (without header/checksum)
+    """
+    if direction == 0:
+        cmd = 0x76
+        targetx = 0x00
+        ramp = 0x00
+    else:
+        if direction == 1:
+            cmd = 0x71
+        else:
+            cmd = 0x69
+        targetx = target / 100.
+        targetx = 1. - targetx
+        targetx = hex(nt(255 - 255 * targetx))
+        ramp = hex(ramp_rate)
+
+    
+    try:
+        # Only convert to 0-based if not 0xFF ("all channels")
+        if channel != 0xFF:
+            channel = max(0, channel - 1)
+
+        
+        body_bytes = [
+            0X1C,
+            area & 0xFF, # Byte 1: area
+            channel  & 0xFF,  # Byte 4: channel (zero-based) data 1
+            cmd,        # Byte 3: opcode
+            targetx,  # Byte 4: data 2
+            ramp,        # Byte data 3
+            join & 0xFF  # Byte 6: join
+        ]
+        return " ".join(f"{b:02X}" for b in body_bytes)
+
+    except Exception as e:
+        log(f"❌ build_request_set_preset_dyn1: {e}")
+        return None
